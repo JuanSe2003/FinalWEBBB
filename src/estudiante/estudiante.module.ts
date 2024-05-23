@@ -1,21 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { ProyectoEntity } from '../proyecto/proyecto.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { EstudianteService } from './estudiante.service';
+import { EstudianteEntity } from './estudiante.entity';
 @Module({
+    imports: [TypeOrmModule.forFeature([EstudianteEntity])],
   providers: [EstudianteService]
 })
-@Entity()
-export class EstudianteModule {
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column()
-    nombre: string;
-    @Column()
-    telefono: string;
-    
-    @OneToOne(() => ProyectoEntity)
-    @JoinColumn()
-    proyecto: ProyectoEntity;
-}
+export class EstudianteModule {}
+
