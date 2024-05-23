@@ -14,8 +14,8 @@ export class ProyectoEstudianteService {
     ){}
 
     async asignarProyectoEstudiante(idProyecto: string, idEstudiante: string): Promise<any>{
-        const proyecto = await this.proyectoRepository.findOne(idProyecto);
-        const estudiante = await this.estudianteRepository.findOne(idEstudiante);
+        const proyecto = await this.proyectoRepository.findOne({where:{id: idProyecto}, relations: ['estudiante']});
+        const estudiante = await this.estudianteRepository.findOne({where:{id: idEstudiante}, relations: ['proyecto']});
         proyecto.estudiante = estudiante;
         return await this.proyectoRepository.save(proyecto);
     }
