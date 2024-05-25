@@ -13,7 +13,7 @@ export class ProfesorService {
     ) {}
 
     async findbyId(id: string): Promise<ProfesorEntity> {
-        const profesor :ProfesorEntity = await this.profesorRepository.findOne({where:{id}, relations: ['proyectos']});
+        const profesor :ProfesorEntity = await this.profesorRepository.findOne({where:{id}, relations: ['propuestas']});
         if (!profesor) {
             return null;
         }
@@ -29,7 +29,7 @@ export class ProfesorService {
     }
 
     async eliminarProfesor(id: string): Promise<ProfesorEntity> {
-        const profesor = await this.profesorRepository.findOne({where: {id},relations: ['proyectos']});
+        const profesor = await this.profesorRepository.findOne({where: {id},relations: ['propuestas']});
         if (!profesor) {
             return null;
         }
@@ -40,7 +40,7 @@ export class ProfesorService {
     }
 
     async eliminarprofesorporCedula(numeroCedula: number): Promise<ProfesorEntity> {
-        const profesor = await this.profesorRepository.findOne({where: {numeroCedula},relations: ['proyectos']});
+        const profesor = await this.profesorRepository.findOne({where: {numeroCedula}, relations: ['propuestas']});
         if (!profesor) {
             return null;
         }

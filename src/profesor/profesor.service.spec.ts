@@ -41,6 +41,58 @@ describe('ProfesorService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it("Crear un profesor de manera exitosa", async () => {
+    const profesor:ProfesorEntity= {
+      id:"200",
+      numeroCedula: faker.number.int(),
+      numeroextension: faker.number.int(),
+      nombre: faker.person.firstName(),
+      grupoInvestigacion: "TICSW",
+      propuestas:[],
+    };
+    const nuevoProfesor:ProfesorEntity= await service.crearProfesor(profesor);
+    expect(nuevoProfesor).not.toBeNull();
+    const profesorAlmacenado: ProfesorEntity= await repositoryProfesores.findOne({where:{id: nuevoProfesor.id}});
+    expect(profesorAlmacenado).not.toBeNull();
+    expect (profesorAlmacenado.id).toEqual(nuevoProfesor.id);
+    expect (profesorAlmacenado.numeroCedula).toEqual(nuevoProfesor.numeroCedula);
+    expect (profesorAlmacenado.numeroextension).toEqual(nuevoProfesor.numeroextension);
+    expect (profesorAlmacenado.nombre).toEqual(nuevoProfesor.nombre);
+    expect (profesorAlmacenado.grupoInvestigacion).toEqual(nuevoProfesor.grupoInvestigacion);
+  }); 
+  
+  it ("No se puede crear un profesor con un grupo de investigacion diferente a TICSW, IMAGINE o COMIT", async () => {
+    const profesor:ProfesorEntity= {
+      id:"200",
+      numeroCedula: faker.number.int(),
+      numeroextension: faker.number.int(),
+      nombre: faker.person.firstName(),
+      grupoInvestigacion: "BABYGIRL",
+      propuestas:[],
+    };
+    const nuevoProfesor:ProfesorEntity= await service.crearProfesor(profesor);
+    expect(nuevoProfesor).toBeNull();
+  });
+
+  it ("findbyId exitoso", async () => {
+    const storedProfesor:ProfesorEntity = profesoresList[0];
+    console.log(storedProfesor);
+    const profesor:ProfesorEntity = await service.findbyId(storedProfesor.id);
+    console.log(profesor);
+    expect(profesor).not.toBeNull();
+    expect(profesor.id).toEqual(storedProfesor.id);
+    expect(profesor.numeroCedula).toEqual(storedProfesor.numeroCedula);
+    expect(profesor.numeroextension).toEqual(storedProfesor.numeroextension);
+    expect(profesor.nombre).toEqual(storedProfesor.nombre);
+    expect(profesor.grupoInvestigacion).toEqual(storedProfesor.grupoInvestigacion);
+  });
+
+  it ("findbyId fallido", async () => {
+    const profesor:ProfesorEntity = await service.findbyId("999");
+    expect(profesor).toBeNull();
+  });
+
 }
 );
 
