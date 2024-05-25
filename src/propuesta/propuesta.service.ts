@@ -44,7 +44,4 @@ export class PropuestaService {
     }
 
 
-
-
-
 }

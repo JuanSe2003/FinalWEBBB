@@ -77,9 +77,9 @@ describe('ProfesorService', () => {
 
   it ("findbyId exitoso", async () => {
     const storedProfesor:ProfesorEntity = profesoresList[0];
-    console.log(storedProfesor);
+    //console.log(storedProfesor);
     const profesor:ProfesorEntity = await service.findbyId(storedProfesor.id);
-    console.log(profesor);
+    //console.log(profesor);
     expect(profesor).not.toBeNull();
     expect(profesor.id).toEqual(storedProfesor.id);
     expect(profesor.numeroCedula).toEqual(storedProfesor.numeroCedula);
