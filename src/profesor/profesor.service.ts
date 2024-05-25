@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfesorEntity } from './profesor.entity';
 import { Repository } from 'typeorm';
-
+import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 
 @Injectable()
 export class ProfesorService {
@@ -15,7 +15,7 @@ export class ProfesorService {
     async findbyId(id: string): Promise<ProfesorEntity> {
         const profesor :ProfesorEntity = await this.profesorRepository.findOne({where:{id}, relations: ['propuestas']});
         if (!profesor) {
-            return null;
+            throw new BusinessLogicException('Profesor no encontrado', BusinessError.NOT_FOUND);
         }
         return profesor;
     }
@@ -23,7 +23,7 @@ export class ProfesorService {
     async crearProfesor(profesor: ProfesorEntity): Promise<ProfesorEntity> {
         
         if(profesor.grupoInvestigacion != 'TICSW' && profesor.grupoInvestigacion != 'IMAGINE' && profesor.grupoInvestigacion != 'COMIT'){
-            return null;
+            throw new BusinessLogicException('Grupo de investigacion no valido', BusinessError.BAD_REQUEST);
         }
         return await this.profesorRepository.save(profesor);
     }
@@ -34,7 +34,7 @@ export class ProfesorService {
             return null;
         }
         if(profesor.propuestas.length > 0){
-            return null;
+            throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
         }
         return await this.profesorRepository.remove(profesor);
     }
@@ -45,7 +45,7 @@ export class ProfesorService {
             return null;
         }
         if(profesor.propuestas.length > 0){
-            return null;
+            throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
         }
         return await this.profesorRepository.remove(profesor);
     }

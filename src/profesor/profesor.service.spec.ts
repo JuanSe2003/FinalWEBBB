@@ -6,6 +6,7 @@ import { ProfesorEntity } from './profesor.entity';
 import { ProfesorService } from './profesor.service';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
 import { faker } from '@faker-js/faker';
+import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 describe('ProfesorService', () => {
   let service: ProfesorService;
   let repositoryProfesores: Repository<ProfesorEntity>;
@@ -72,14 +73,12 @@ describe('ProfesorService', () => {
       propuestas:[],
     };
     const nuevoProfesor:ProfesorEntity= await service.crearProfesor(profesor);
-    expect(nuevoProfesor).toBeNull();
+    expect(nuevoProfesor).toEqual(BusinessLogicException("Grupo de investigacion no valido", BusinessError.BAD_REQUEST));
   });
 
   it ("findbyId exitoso", async () => {
     const storedProfesor:ProfesorEntity = profesoresList[0];
-    //console.log(storedProfesor);
     const profesor:ProfesorEntity = await service.findbyId(storedProfesor.id);
-    //console.log(profesor);
     expect(profesor).not.toBeNull();
     expect(profesor.id).toEqual(storedProfesor.id);
     expect(profesor.numeroCedula).toEqual(storedProfesor.numeroCedula);
@@ -89,8 +88,7 @@ describe('ProfesorService', () => {
   });
 
   it ("findbyId fallido", async () => {
-    const profesor:ProfesorEntity = await service.findbyId("999");
-    expect(profesor).toBeNull();
+    await expect(()=>service.findbyId("999")).rejects.toHaveProperty("message", "Profesor no encontrado");
   });
 
 }
