@@ -89,4 +89,20 @@ describe('PropuestaService', () => {
     expect(propuestaEncontrada).toBeNull();
   });
 
+  it ("Metodo find all propuestas", async () => {
+    const propuestas: PropuestaEntity[] = await service.findAllPropuesta();
+    expect(propuestas).not.toBeNull();
+    expect(propuestas.length).toEqual(propuestasList.length);
+  });
+  
+  it ("Metodo delete propuesta", async () => {
+    const propuesta: PropuestaEntity = propuestasList[0];
+    const propuestaBorrada: PropuestaEntity = await service.deletePropuesta(propuesta.id);
+    expect(propuestaBorrada).not.toBeNull();
+    const propuestaEncontrada: PropuestaEntity = await repositoryPropuestas.findOne({where:{id: propuesta.id}});
+    expect(propuestaEncontrada).toBeNull();
+  });
+
+
+
 });
