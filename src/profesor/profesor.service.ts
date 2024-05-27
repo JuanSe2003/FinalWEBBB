@@ -48,7 +48,7 @@ export class ProfesorService {
         if (!profesor) {
             throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
         }
-        if(profesor.propuestas.length && Array.isArray(profesor.propuestas) && profesor.propuestas.length > 0){
+        if(Array.isArray(profesor.propuestas) ){
             for (const propuesta of profesor.propuestas) {
                 if (propuesta.proyecto!=null) {
                     throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);

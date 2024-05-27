@@ -3,7 +3,7 @@ import {IsNotEmpty, IsString, IsNumber} from 'class-validator';
 export class ProfesorDto {
     @IsNumber()
     @IsNotEmpty()
-    readonly cedula: number;
+    readonly numeroCedula: number;
 
     @IsString()
     @IsNotEmpty()

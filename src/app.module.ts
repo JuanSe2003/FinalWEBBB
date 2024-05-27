@@ -20,7 +20,7 @@ import { PropuestaEntity } from './propuesta/propuesta.entity';
      port: 5432,
      username: 'postgres',
      password: 'Maria',
-     database: 'ParcialWeb2',
+     database: 'ParcialWeb4',
      entities: [ProyectoEntity, ProfesorEntity, EstudianteEntity, PropuestaEntity],
      dropSchema: true,
      synchronize: true,

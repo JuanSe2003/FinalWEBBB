@@ -7,10 +7,13 @@ export class ProfesorEntity {
     id: string;
     @Column()
     numeroCedula:number;
+
     @Column()
     numeroextension:number;
+    
     @Column()
     nombre:string;
+
     @Column()
     grupoInvestigacion:string;
 
