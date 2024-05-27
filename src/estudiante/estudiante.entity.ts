@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ProyectoEntity } from "../proyecto/proyecto.entity";
 @Entity()
 export class EstudianteEntity {
@@ -11,7 +11,7 @@ export class EstudianteEntity {
     codigo: string;
     @Column()
     numeroCreditosaprovados:number;
+
     @OneToOne(() => ProyectoEntity, proyecto => proyecto.estudiante)
-    @JoinColumn()
     proyecto: ProyectoEntity;
 }

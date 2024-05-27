@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, OneToOne, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import { ProyectoEntity} from "../proyecto/proyecto.entity";
 import { ProfesorEntity } from "../profesor/profesor.entity";
 @Entity()

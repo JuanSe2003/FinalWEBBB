@@ -31,21 +31,29 @@ export class ProfesorService {
     async eliminarProfesor(id: string): Promise<ProfesorEntity> {
         const profesor = await this.profesorRepository.findOne({where: {id},relations: ['propuestas']});
         if (!profesor) {
-            return null;
-        }
-        if(profesor.propuestas.length > 0){
             throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
+        }
+        if(profesor.propuestas.length && Array.isArray(profesor.propuestas) && profesor.propuestas.length > 0){
+            for (const propuesta of profesor.propuestas) {
+                if (propuesta.proyecto!=null) {
+                    throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
+                }
+            }
         }
         return await this.profesorRepository.remove(profesor);
     }
 
-    async eliminarprofesorporCedula(numeroCedula: number): Promise<ProfesorEntity> {
-        const profesor = await this.profesorRepository.findOne({where: {numeroCedula}, relations: ['propuestas']});
+    async eliminarProfesorCedula(numeroCedula: number): Promise<ProfesorEntity> {
+        const profesor = await this.profesorRepository.findOne({where: {numeroCedula},relations: ['propuestas']});
         if (!profesor) {
-            return null;
-        }
-        if(profesor.propuestas.length > 0){
             throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
+        }
+        if(profesor.propuestas.length && Array.isArray(profesor.propuestas) && profesor.propuestas.length > 0){
+            for (const propuesta of profesor.propuestas) {
+                if (propuesta.proyecto!=null) {
+                    throw new BusinessLogicException('No se puede eliminar el profesor porque tiene propuestas asociadas', BusinessError.BAD_REQUEST);
+                }
+            }
         }
         return await this.profesorRepository.remove(profesor);
     }
